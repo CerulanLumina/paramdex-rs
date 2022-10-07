@@ -1,4 +1,12 @@
 
+//! Utilities for handling and deserializing a Paramdex for modifying Souls games.
+//!
+//! Entry points for the library include:
+//! - [`Paramdex::deserialize_all`] - For deserializing an entire Paramdex
+//! - [`deserialize::deserialize_def`] - For deserializing a single Paramdef from a Paramdex
+//! - [`Paramdex::empty`] - For starting with an empty Paramdex to insert defs into.
+
+
 /// Utilities for deserializing [ParamDef]s from XML. Input should be from
 /// [soulsmods/Paramdex](https://github.com/soulsmods/Paramdex).
 pub mod deserialize;
@@ -38,6 +46,9 @@ impl Paramdex {
         }
         Ok(paramdex)
     }
+
+    /// Creates an empty Paramdex.
+    pub fn empty() -> Paramdex { Paramdex { definitions: HashMap::new() } }
 }
 
 /// The text format for descriptions in the [ParamDef]
