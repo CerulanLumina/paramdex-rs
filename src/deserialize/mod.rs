@@ -139,7 +139,7 @@ impl FromStr for ParamdefEndian {
     type Err = ParseBoolError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-          bool::from_str(s).map(|a| a.into())
+          bool::from_str(s.to_lowercase().as_str()).map(|a| a.into())
     }
 }
 
@@ -173,19 +173,19 @@ impl From<bool> for ParamdefFormat {
 
 #[derive(Error, Debug)]
 pub enum ParamdefDeserializeError {
-    #[error("XML parsing failed")]
+    #[error("XML parsing failed: {0}")]
     XmlParsing(#[from] roxmltree::Error),
 
-    #[error("XML blank element")]
+    #[error("XML blank element: {0}")]
     XmlBlankElement(String),
 
-    #[error("Parsing number from XML")]
+    #[error("Parsing number from XML: {0}")]
     XmlParsingNumber(#[from] ParseIntError),
 
-    #[error("Parsing bool from XML")]
+    #[error("Parsing bool from XML: {0}")]
     XmlParsingBool(#[from] ParseBoolError),
 
-    #[error("Parsing float from XML")]
+    #[error("Parsing float from XML: {0}")]
     XmlParsingFloat(#[from] ParseFloatError),
 
     #[error("A required field in the XML was missing")]
