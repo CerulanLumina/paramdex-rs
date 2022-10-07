@@ -2,7 +2,7 @@ use std::str::FromStr;
 use pest_derive::Parser;
 
 #[derive(Parser)]
-#[grammar = "fielddef.pest"]
+#[grammar = "deserialize/fielddef.pest"]
 struct DefParser;
 
 use pest::iterators::Pairs;

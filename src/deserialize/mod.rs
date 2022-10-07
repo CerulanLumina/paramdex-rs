@@ -9,6 +9,7 @@ mod field_def_parse;
 
 pub use field_def_parse::DefParseError;
 
+/// Root element name of a ParamDef in the XML
 const PARAM_DEF_ROOT: &'static str = "PARAMDEF";
 
 impl FromStr for ParamDef {
@@ -19,6 +20,7 @@ impl FromStr for ParamDef {
     }
 }
 
+/// Deserialize a ParamDef from a provided XML string
 pub fn deserialize_def<S: AsRef<str>>(input: S) -> Result<ParamDef, ParamdefDeserializeError> {
     let input = input.as_ref();
 
@@ -64,6 +66,7 @@ pub fn deserialize_def<S: AsRef<str>>(input: S) -> Result<ParamDef, ParamdefDese
     Ok(paramdef)
 }
 
+/// Wrapper function to return value from a map or an error
 fn get_or_error<'a>(map: &'a HashMap<String, String>, key: &str) -> Result<&'a String, ParamdefDeserializeError> {
     map.get(key).ok_or(ParamdefDeserializeError::MissingParamData(format!("{}", key)))
 }
