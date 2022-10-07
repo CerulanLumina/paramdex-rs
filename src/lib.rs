@@ -1,5 +1,6 @@
 
-///
+/// Utilities for deserializing [ParamDef]s from XML. Input should be from
+/// [soulsmods/Paramdex](https://github.com/soulsmods/Paramdex).
 pub mod deserialize;
 
 use std::collections::HashMap;
