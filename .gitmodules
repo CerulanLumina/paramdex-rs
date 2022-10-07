@@ -1,0 +1,3 @@
+[submodule "Paramdex"]
+	path = Paramdex
+	url = git@github.com:soulsmods/Paramdex.git

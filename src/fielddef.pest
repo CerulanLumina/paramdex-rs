@@ -1,0 +1,20 @@
+simple_field_type = { int_type | angle_type | float_type | bool_type }
+	int_type_prefix = { "s"|"u" }
+	int_bit_size = { "8"|"16"|"32" }
+	int_type = { int_type_prefix ~ int_bit_size }
+	float_bit_size = { "32"|"64" }
+	float_type = { "f" ~ float_bit_size }
+	angle_type = { "angle32"|"a32" }
+	bool_type = { "b32" }
+field_name = { LETTER ~ (LETTER | NUMBER | "_")* }
+negation = { "-" }
+number = { ASCII_DIGIT+ }
+float_number = { negation? ~ number ~ ("." ~ number)? ~ ("E" ~ ( "+" | "-" ) ~ number)? }
+suffix_array = { "[" ~ number ~ "]" }
+suffix_bitsize = { ":" ~ number }
+
+dummy_field_type = { "dummy8" }
+def = { SOI ~ (def_dummy|def_simple) ~ EOI }
+	def_simple = { simple_field_type ~ " " ~ field_name ~ suffix_bitsize? ~ def_default_suffix? }
+    def_default_suffix = { " "? ~ "=" ~ " "? ~ float_number }
+    def_dummy = { dummy_field_type ~ " " ~ field_name ~ (suffix_array|suffix_bitsize)? ~ def_default_suffix? }
