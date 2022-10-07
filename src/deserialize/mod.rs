@@ -157,7 +157,7 @@ impl FromStr for ParamdefFormat {
     type Err = ParseBoolError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        bool::from_str(s).map(|a| a.into())
+        bool::from_str(s.to_lowercase().as_str()).map(|a| a.into())
     }
 }
 

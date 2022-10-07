@@ -1,6 +1,6 @@
 [package]
 name = "paramdex-rs"
-version = "0.1.0+build.2"
+version = "0.1.0+build.3"
 edition = "2021"
 license = "MPL-2.0"
 description = "Utilities for handling and deserializing a Paramdex / individual Paramdef XMLs for modifying Souls games"
