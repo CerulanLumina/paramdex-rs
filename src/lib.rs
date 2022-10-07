@@ -4,6 +4,7 @@
 pub mod deserialize;
 
 use std::collections::HashMap;
+use crate::deserialize::ParamdefDeserializeError;
 
 /// A simple mapping from param type to a [ParamDef]
 pub struct Paramdex {
@@ -12,7 +13,6 @@ pub struct Paramdex {
 }
 
 impl Paramdex {
-
     /// Insert a new [ParamDef] into the Paramdex
     pub fn insert(&mut self, paramdef: ParamDef) -> Option<ParamDef> {
         self.definitions.insert(paramdef.param_type.clone(), paramdef)
@@ -20,8 +20,23 @@ impl Paramdex {
 
     /// Retrieve a [ParamDef] based on a param type (encoded into params)
     /// The relevant definition must first be inserted into the paramdex by using [`Paramdex::insert`]
+    /// or by deserializing the Paramdex.
+    ///
+    /// # See also
+    /// [`Paramdex::deserialize_all`]
     pub fn get_param_def(&self, key: &str) -> Option<&ParamDef> {
         self.definitions.get(key)
+    }
+
+    /// Deserialize a whole Paramdex from an iterator of &str
+    pub fn deserialize_all<I: IntoIterator<Item = S>, S: AsRef<str>>(input_iter: I) -> Result<Paramdex, ParamdefDeserializeError> {
+        let mut paramdex = Paramdex { definitions: HashMap::new() };
+
+        for input in input_iter {
+            let input = input.as_ref();
+            paramdex.insert(deserialize::deserialize_def(input)?);
+        }
+        Ok(paramdex)
     }
 }
 
