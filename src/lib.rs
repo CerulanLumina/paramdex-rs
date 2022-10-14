@@ -58,6 +58,7 @@ pub enum ParamdefFormat {
 }
 
 /// The endianness of the specific [ParamDef]
+#[derive(Copy, Clone, Eq, PartialEq, Debug)]
 pub enum ParamdefEndian {
     Little,
     Big,
