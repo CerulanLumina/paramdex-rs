@@ -59,7 +59,7 @@ pub fn deserialize_def<S: AsRef<str>>(input: S) -> Result<ParamDef, ParamdefDese
 
     let fields = &mut paramdef.fields;
 
-    for node in fields_node.children() {
+    for node in fields_node.children().filter(|a| a.has_tag_name("Field")) {
         fields.push(parse_field_node(node)?);
     }
 

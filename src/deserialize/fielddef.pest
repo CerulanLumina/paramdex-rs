@@ -1,8 +1,8 @@
 simple_field_type = { int_type | angle_type | float_type | bool_type }
 	int_type_prefix = { "s"|"u" }
-	int_bit_size = { "8"|"16"|"32" }
+	int_bit_size = _{ "8"|"16"|"32" }
 	int_type = { int_type_prefix ~ int_bit_size }
-	float_bit_size = { "32"|"64" }
+	float_bit_size = _{ "32"|"64" }
 	float_type = { "f" ~ float_bit_size }
 	angle_type = { "angle32"|"a32" }
 	bool_type = { "b32" }
@@ -13,8 +13,13 @@ float_number = { negation? ~ number ~ ("." ~ number)? ~ ("E" ~ ( "+" | "-" ) ~ n
 suffix_array = { "[" ~ number ~ "]" }
 suffix_bitsize = { ":" ~ number }
 
+unrecognized_field_type = { (ASCII_ALPHANUMERIC)+ }
+
 dummy_field_type = { "dummy8" }
-def = { SOI ~ (def_dummy|def_simple) ~ EOI }
+fixstr_type = { "fixstr" ~ "W"? }
+def = { SOI ~ (def_dummy|def_simple|def_fixstr|def_unrecog) ~ EOI }
 	def_simple = { simple_field_type ~ " " ~ field_name ~ suffix_bitsize? ~ def_default_suffix? }
     def_default_suffix = { " "? ~ "=" ~ " "? ~ float_number }
     def_dummy = { dummy_field_type ~ " " ~ field_name ~ (suffix_array|suffix_bitsize)? ~ def_default_suffix? }
+    def_fixstr = { fixstr_type ~ " " ~ field_name ~ suffix_array }
+    def_unrecog = { unrecognized_field_type ~ " " ~ ANY* }
